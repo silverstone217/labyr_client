@@ -12,6 +12,13 @@ const Authform = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [token, setToken] = useState(() => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("token");
+    }
+    return null;
+  });
+
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
@@ -23,24 +30,22 @@ const Authform = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password } as UserLoginType),
-        credentials: "include",
       });
 
-      const data = await response.json(); // toujours lire une fois
-
-      // console.log("STATUS:", response.status);
-      // console.log("DATA:", data);
+      const json = await response.json();
 
       if (!response.ok) {
-        setError(data?.message || "Erreur");
-        return;
+        return { error: true, message: json.message || "Erreur", token: null };
       }
 
-      console.log("SUCCESS:", data);
-      location.href = "/configurations";
+      // On stocke le token côté client
+      sessionStorage.setItem("token", json.token);
+      location.href = "/configurations"; // redirige vers la page de configurations
+
+      return { error: false, message: json.message, token: json.token };
     } catch (err) {
       console.error(err);
-      setError("Erreur réseau");
+      return { error: true, message: "Erreur réseau", token: null };
     } finally {
       setLoading(false);
     }
@@ -57,6 +62,7 @@ const Authform = () => {
           <p className="text-muted-foreground text-sm mt-1">
             Accède à ton espace sécurisé
           </p>
+          <p>{token}</p>
         </div>
 
         {/* Username */}

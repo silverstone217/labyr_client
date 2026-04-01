@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { lato, medievalSharp } from "@/lib/fonts";
 import { SocketProvider } from "@/components/providers/SocketProvider";
+import { TokenProvider } from "@/components/providers/TokenProvider";
 
 export const metadata: Metadata = {
   title: "Labyr",
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body
         className={`min-h-full flex flex-col ${medievalSharp.variable} ${lato.className} antialiased`}
       >
-        <SocketProvider>{children}</SocketProvider>
+        <SocketProvider>
+          <TokenProvider>{children}</TokenProvider>
+        </SocketProvider>
       </body>
     </html>
   );

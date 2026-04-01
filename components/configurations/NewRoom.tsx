@@ -1,6 +1,7 @@
 "use client";
 
 import { ENDPOINT_URL } from "@/utils/envVariables";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 type Props = {
@@ -21,6 +22,7 @@ const NewRoom = ({ isOpen, onClose, token }: Props) => {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   // Close on ESCAPE key
   useEffect(() => {
@@ -72,6 +74,9 @@ const NewRoom = ({ isOpen, onClose, token }: Props) => {
 
       setRoomName("");
       setExits([]);
+      setMessage("");
+
+      location.reload(); // Refresh the page to show the new room in the list
 
       onClose();
     } catch (error) {

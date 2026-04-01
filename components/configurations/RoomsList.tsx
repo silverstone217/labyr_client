@@ -21,7 +21,7 @@ const RoomsList = ({ token }: { token: string }) => {
       setError(null);
 
       try {
-        const res = await fetch(`http://localhost:5000/api/rooms`, {
+        const res = await fetch(`${ENDPOINT_URL}/api/rooms`, {
           method: "GET",
           credentials: "include", // 🔥 important si tu utilises cookie auth
           signal: controller.signal,
@@ -66,7 +66,7 @@ const RoomsList = ({ token }: { token: string }) => {
         </button>
 
         {/* DECONNEXION */}
-        <LogoutBtn token={token} />
+        <LogoutBtn />
       </div>
 
       {isOpen && (

@@ -1,9 +1,11 @@
-import { getToken } from "@/actions/user";
+"use client";
+
 import RoomsList from "@/components/configurations/RoomsList";
+import { getToken } from "@/utils/getToken";
 import React from "react";
 
-async function page() {
-  const token = await getToken();
+function page() {
+  const token = getToken();
 
   return (
     <div className="p-6 flex flex-col w-full">
